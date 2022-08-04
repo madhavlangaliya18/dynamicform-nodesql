@@ -6,19 +6,19 @@ module.exports = (sequelize, Sequelize) => {
         field_name: {
             type: Sequelize.STRING
         },
-        field_type  : {
+        field_type: {
             type: Sequelize.BOOLEAN
         },
-        iseditable  : {
+        iseditable: {
             type: Sequelize.BOOLEAN
         },
-        isvisibletolist  : {
+        isvisibletolist: {
             type: Sequelize.BOOLEAN
         },
-        field_values  : {
+        field_values: {
             type: Sequelize.STRING
         },
-        validation  : {
+        validation: {
             type: Sequelize.STRING
         },
 
