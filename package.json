@@ -1,11 +1,31 @@
 {
   "name": "dynamicformapi2",
   "version": "1.0.0",
-  "description": "",
-  "main": "app",
+  "description": "NodeJs Rest Apis with Express, Sequalize & MySQL",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
   },
+  "keywords": [
+    "nodejs",
+    "express",
+    "sequalize",
+    "rest",
+    "api",
+    "sql"
+  ],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "dotenv": "^16.0.0",
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.3.5",
+    "nodemon": "^1.18.7",
+    "express-validator": "^6.14.0",
+    "eslint": "^8.13.0"
+  }
 }
