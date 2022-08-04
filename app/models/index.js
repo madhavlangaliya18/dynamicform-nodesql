@@ -5,7 +5,7 @@ const Sequelize = require('sequelize')
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     host: dbConfig.HOST,
     dialect: dbConfig.dialect,
-    operatorsAliases: false,
+    operatorsAliases: 0,
 
     pool: {
         max: dbConfig.pool.max,
@@ -21,6 +21,9 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.form = require('./form.model.js')(sequelize, Sequelize)
+db.forms = require('./forms.model.js')(sequelize, Sequelize)
+db.fields = require('./fields.model.js')(sequelize, Sequelize)
+db.formsdataentries = require('./formsDataEntries.model.js')(sequelize, Sequelize)
+db.formsentries = require('./formsEntries.model.js')(sequelize, Sequelize)
 
 module.exports = db;

@@ -2,7 +2,7 @@ module.exports = {
     HOST: 'localhost',
     USER: 'root',
     PASSWORD: 'password',
-    DB: 'products_db',
+    DB: 'dynamic_form',
     dialect: 'mysql',
     pool: {
         max: 5,
