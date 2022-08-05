@@ -1,25 +1,33 @@
 module.exports = (sequelize, Sequelize) => {
     const FieldsSchema = sequelize.define('Fields', {
         field_label: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false,
         },
         field_name: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false,
         },
         field_type: {
-            type: Sequelize.BOOLEAN
+            type: Sequelize.BOOLEAN,
+            allowNull: false,
         },
         iseditable: {
-            type: Sequelize.BOOLEAN
+            type: Sequelize.BOOLEAN,
+            allowNull: false,
         },
         isvisibletolist: {
-            type: Sequelize.BOOLEAN
+            type: Sequelize.BOOLEAN,
+            allowNull: false,
         },
         field_values: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false,   
+
         },
         validation: {
-            type: Sequelize.STRING
+            type: Sequelize.JSON,
+            allowNull: false,
         },
 
     });

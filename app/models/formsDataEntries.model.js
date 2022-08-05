@@ -34,7 +34,8 @@ module.exports = (sequelize, Sequelize) => {
             }
         },
         value: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false,
         }
     });
 

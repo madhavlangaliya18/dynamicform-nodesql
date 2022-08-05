@@ -7,20 +7,24 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true
         },
         form_name: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false,
         },
         form_key: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false,
         },
         status: {
-            type: Sequelize.BOOLEAN
+            type: Sequelize.BOOLEAN,
+            allowNull: true,
         },
         submitButtonName: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false,
         },
         fields_id: {
             type: Sequelize.INTEGER(11),
-            allowNull: false,
+            allowNull: true,
             primaryKey: true,
             references: {
                 model: 'Fields',

@@ -8,37 +8,37 @@ const { validationResult } = require("express-validator");
 const labelmsg = require('../labels/response.labels');
 
 // //Create and save new form
-// exports.create = (req, res) => {
-//     console.log("called");
-//     //Validate Request
-//     if (!req.body.form_name) {
-//         res.status(400).send({
-//             message: 'Title cannot be empty!'
-//         })
-//     }
+exports.Create = (req, res) => {
+    console.log("called");
+    //Validate Request
+    if (!req.body.form_name) {
+        res.status(400).send({
+            message: 'Title cannot be empty!'
+        })
+    }
 
-//     else {
-//         //Create a Form
-//         const Form = {
-//             title: req.body.title,
-//             description: req.body.description,
-//             published: req.body.published ? req.body.published : false
-//         }
+    else {
+        //Create a Form
+        const Form = {
+            title: req.body.title,
+            description: req.body.description,
+            published: req.body.published ? req.body.published : false
+        }
 
-//         Form.create(Form)
-//             .then(data => {
-//                 res.send(data);
-//             })
-//             .catch(err => {
-//                 res.status(500).send({
-//                     message:
-//                         err.message || 'Some error occured while creating the Form.'
-//                 })
-//             })
-//     }
+        Form.create(Form)
+            .then(data => {
+                res.send(data);
+            })
+            .catch(err => {
+                res.status(500).send({
+                    message:
+                        err.message || 'Some error occured while creating the Form.'
+                })
+            })
+    }
 
 
-// }
+}
 
 // //Retieve all form from the db
 // exports.findAll = (req, res) => {
