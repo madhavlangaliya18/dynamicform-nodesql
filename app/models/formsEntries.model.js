@@ -2,8 +2,8 @@ module.exports = (sequelize, Sequelize) => {
     const Formentriesschema = sequelize.define('Formsentries', {
         id: {
             type: Sequelize.INTEGER,
-            allowNull: false,
             autoIncrement: true,
+            allowNull: false,
             primaryKey: true
         },
         form_id: {

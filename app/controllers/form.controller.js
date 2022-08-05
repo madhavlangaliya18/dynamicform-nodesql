@@ -85,8 +85,19 @@ exports.Create = (request, result) => {
       submitButtonName: request.body.submitButtonName ? request.body.submitButtonName : false
     };
   
-    console.log("rebody-----",request.body.fields);
+    Forms.create(formdata).then(data => {
+      let formids = data.id
+      data.push(formids)
+      console.log("--------------formid",data.id);
+      result.send(data);
+    }).catch(err => {
+      result.status(500).send({
+        message: err.message || "Some error occurred while saving."
+      });
+    });
     let fieldsarr = request.body.fields
+    console.log("---------------------",fieldsarr)
+
     Fields.bulkCreate(fieldsarr).then(data => {
         result.send(data);
       }).catch(err => {
@@ -94,13 +105,6 @@ exports.Create = (request, result) => {
           message: err.message || "Some error occurred while saving."
         });
       });
-    Forms.create(formdata).then(data => {
-      result.send(data);
-    }).catch(err => {
-      result.status(500).send({
-        message: err.message || "Some error occurred while saving."
-      });
-    });
   };
 
 
