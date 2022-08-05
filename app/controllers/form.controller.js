@@ -1,5 +1,5 @@
 const db = require('../models')
-const Form = db.forms;
+const Forms = db.forms;
 const Fields = db.fields;
 const Formsdataentries = db.formsdataentries;
 const Formsentries = db.formsentries;
@@ -8,36 +8,60 @@ const { validationResult } = require("express-validator");
 const labelmsg = require('../labels/response.labels');
 
 // //Create and save new form
-exports.Create = (req, res) => {
-    console.log("called");
-    //Validate Request
-    if (!req.body.form_name) {
-        res.status(400).send({
-            message: 'Title cannot be empty!'
-        })
+exports.Create = async (req, res) => {
+console.log("called hereeeeeeee");
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        const error = errors.array()[0];
+        return res.status(422).json({
+            error: error.msg
+        });
     }
 
-    else {
-        //Create a Form
-        const Form = {
-            title: req.body.title,
-            description: req.body.description,
-            published: req.body.published ? req.body.published : false
+    let data = req.body;
+    let fieldsarr = data.fields;
+    console.log(fieldsarr);
+    // data.fields.filter((x) => {
+    //     // let mapping = x.validation?.map(a => [a.validation_type, a.validation_value]);
+    //     x.validation = mapping ? Object.fromEntries(mapping) : {};
+	// 	// x.validation = x.validation?.map(a => Object.fromEntries([[a.validation_type, a.validation_value]]));
+    // })
+    delete data._id;
+
+    Forms.findOne({ where: {form_key: data.form_key} }).then((info) => {
+        if (!info) {
+            Fields.bulkCreate(fieldsarr,(err,fieldres)=>{
+                if(err){
+                    res.status(500).json({
+                        success : false,
+                        message : "Unable to create new field!"
+                    })
+                }
+                else{
+                    data.fields_id = fieldres;
+                    Forms.create(data).then((response) => {
+                        res.json({
+                            success: true,
+                            message: labelmsg.addedmsg
+                        })
+                    }).catch((err) => {
+                        //console.log(err);
+                        res.status(500).json({
+                            success: false,
+                            message: labelmsg.errormsg
+                        })
+                    })
+                }
+            })
+        }
+        else {
+            res.json({
+                success: false,
+                message: labelmsg.keyalreadyExists
+            })
         }
 
-        Form.create(Form)
-            .then(data => {
-                res.send(data);
-            })
-            .catch(err => {
-                res.status(500).send({
-                    message:
-                        err.message || 'Some error occured while creating the Form.'
-                })
-            })
-    }
-
-
+    })
 }
 
 // //Retieve all form from the db

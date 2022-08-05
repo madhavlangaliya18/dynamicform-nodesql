@@ -24,7 +24,7 @@ module.exports = (sequelize, Sequelize) => {
         },
         fields_id: {
             type: Sequelize.INTEGER(11),
-            allowNull: true,
+            allowNull: false,
             primaryKey: true,
             references: {
                 model: 'Fields',

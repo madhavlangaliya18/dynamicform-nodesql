@@ -1,5 +1,6 @@
 const { check, body} = require('express-validator');
-const { Forms } = require('../models');
+const db = require('../models')
+const Forms = db.forms;
 const labelmsg = require('../labels/response.labels');
 
 
@@ -7,7 +8,7 @@ exports.Create = () => {
     return [
         body('form_name').notEmpty().withMessage(labelmsg.name),
         body('form_key').notEmpty().withMessage(labelmsg.form_key).custom(value => {
-            return Forms.findOne({ 'form_key': value }).then(res => {
+            return Forms.findOne({ where: {'form_key': value }}).then(res => {
                 if (res) {
                     return Promise.reject(labelmsg.keyalreadyExists);
                 }

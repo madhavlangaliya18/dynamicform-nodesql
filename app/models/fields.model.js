@@ -21,7 +21,7 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false,
         },
         field_values: {
-            type: Sequelize.STRING,
+            type: Sequelize.JSON,
             allowNull: false,   
 
         },
