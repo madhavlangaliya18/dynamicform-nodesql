@@ -22,15 +22,13 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             allowNull: false,
         },
-        fields_id: {
-            type: Sequelize.INTEGER(11),
-            allowNull: false,
-            primaryKey: true,
-            references: {
-                model: 'Fields',
-                key: 'id'
-            }
-        },
+        // fields_id: {
+        //     type: Sequelize.INTEGER(11),
+        //     references: {
+        //         model: 'Fields',
+        //         key: 'id'
+        //     }
+        // },
 
     });
 

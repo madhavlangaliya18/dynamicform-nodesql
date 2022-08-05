@@ -9,25 +9,30 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false,
         },
         field_type: {
-            type: Sequelize.BOOLEAN,
+            type: Sequelize.STRING,
             allowNull: false,
         },
         iseditable: {
             type: Sequelize.BOOLEAN,
-            allowNull: false,
         },
         isvisibletolist: {
             type: Sequelize.BOOLEAN,
-            allowNull: false,
         },
         field_values: {
-            type: Sequelize.JSON,
+            type: Sequelize.TEXT,
             allowNull: false,   
 
         },
-        validation: {
-            type: Sequelize.JSON,
-            allowNull: false,
+        // validation: {
+        //     type: Sequelize.TEXT,
+        //     allowNull: false,
+        // },
+            form_id: {
+            type: Sequelize.INTEGER(11),
+            references: {
+                model: 'Forms',
+                key: 'id'
+            }
         },
 
     });
