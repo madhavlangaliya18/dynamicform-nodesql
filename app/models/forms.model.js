@@ -1,36 +1,47 @@
-module.exports = (sequelize, Sequelize) => {
+module.exports = (sequelize, DataTypes ,Sequelize) => {
+
     const Formschema = sequelize.define('Forms', {
         id: {
-            type: Sequelize.INTEGER,
+            type: DataTypes.INTEGER,
             autoIncrement: true,
             allowNull: false,
             primaryKey: true
         },
         form_name: {
-            type: Sequelize.STRING,
+            type: DataTypes.STRING,
             allowNull: false,
+            // defaultValue: "test"
+
         },
         form_key: {
-            type: Sequelize.STRING,
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        submitButtonName: {
+            type: DataTypes.STRING,
             allowNull: false,
         },
         status: {
-            type: Sequelize.BOOLEAN,
+            type: DataTypes.BOOLEAN,
             allowNull: true,
         },
-        submitButtonName: {
-            type: Sequelize.STRING,
+        fields: {
+            type: DataTypes.TEXT('long'),
             allowNull: false,
-        },
-        // fields_id: {
-        //     type: Sequelize.INTEGER(11),
-        //     references: {
-        //         model: 'Fields',
-        //         key: 'id'
-        //     }
-        // },
+            // get(val) {
+            //     return this.getDataValue('fields', JSON.parse(val ?? ""));
+            // },
+            // // set(val) {
+            // //    this.setDataValue('fields',val.join(';'));
+            // // },
+            set(val) {
+                this.setDataValue("fields", JSON.stringify(val ?? ""));
+              },
+        }
+    },);
+    // `sequelize.define` also returns the model
+    // console.log(Formschema === sequelize.models.Forms); // true
 
-    });
 
     return Formschema;
 } 

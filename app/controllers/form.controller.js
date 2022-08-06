@@ -6,6 +6,7 @@ const Formsentries = db.formsentries;
 const Op = db.Sequelize.Op;
 const { validationResult } = require("express-validator");
 const labelmsg = require('../labels/response.labels');
+const { fields } = require('../models');
 
 // //Create and save new form
 // exports.Create = async (req, res) => {
@@ -65,87 +66,120 @@ const labelmsg = require('../labels/response.labels');
 // }
 
 
+exports.Create = async(req, res) => {
 
+  if (!req.body.form_name) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+    return;
+  }
 
-
-
-// my api
-
-exports.Create = (request, result) => {
-    if (!request.body.form_name) {
-      result.status(400).send({
-        message: "Content cannot be empty"
-      });
-    }
-
-    const formdata = {
-      form_name: request.body.form_name,
-      form_key: request.body.form_key,
-      status: request.body.status ? request.body.status : false,
-      submitButtonName: request.body.submitButtonName ? request.body.submitButtonName : false
-    };
-  
-    Forms.create(formdata).then(data => {
-      let formids = data.id
-      data.push(formids)
-      console.log("--------------formid",data.id);
-      result.send(data);
-    }).catch(err => {
-      result.status(500).send({
-        message: err.message || "Some error occurred while saving."
+  const formdata = {
+    form_name: req.body.form_name,
+    form_key: req.body.form_key,
+    status: req.body.status ? req.body.status : false,
+    submitButtonName: req.body.submitButtonName ? req.body.submitButtonName : false,
+    fields:req.body.fields
+  };
+  Forms.create(formdata)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Tutorial."
       });
     });
-    let fieldsarr = request.body.fields
-    console.log("---------------------",fieldsarr)
-
-    Fields.bulkCreate(fieldsarr).then(data => {
-        result.send(data);
-      }).catch(err => {
-        result.status(500).send({
-          message: err.message || "Some error occurred while saving."
-        });
-      });
   };
+
+
+  // Update a Tutorial by the id in the request
+exports.UpdateForm = (req, res) => {
+  const form_id = req.query.form_id;
+  console.log("hello excuseme brother",form_id );
+
+  Forms.update(req.body, {
+    where: { id: form_id }
+  })
+    .then(num => {
+      console.log("num",num);
+      if (num == 1) {
+        res.send({
+          message: "Form was updated successfully."
+        });
+      } else {
+        res.send({
+          message: `Cannot update Form with form_id=${form_id}. Maybe Form was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating Form with id=" + form_id
+      });
+    });
+};
 
 
 
 // //Retieve all form from the db
-// exports.findAll = (req, res) => {
-//     const title = req.query.title
-//     let condition = title ? { title: { [Op.like]: `%${title}%` } } : null
+exports.findAll = (req, res) => {
+    const form_name = req.query.form_name
+    let condition = form_name ? { form_name: { [Op.like]: `%${form_name}%` } } : null
 
-//     Form.findAll({ where: condition })
-//         .then(data => {
-//             res.send(data);
-//         })
-//         .catch(err => {
-//             res.status(500).send({
-//                 message:
-//                     err.message || 'Some error occured while retrieving the Form.'
-//             })
-//         })
+    Forms.findAll({ where: condition })
+        .then(data => {
+          let new_arr = []
+          for (let i = 0; i < data.length; i++) 
+          {
+            let obj = {}
+            try{
+              obj["id"] = data[i]?.id
+              obj["form_name"] = data[i]?.form_name
+              obj["form_key"] = data[i]?.form_key
+              obj["submitButtonName"] = data[i]?.submitButtonName
+              obj["status"] = data[i]?.status
+              obj["fields"] = JSON.parse(data[i]?.fields)
+            }
+            catch(err){
+              console.log(err)
 
-// }
+            }
+            new_arr.push(obj)
+          }  
+          res.send(new_arr);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || 'Some error occured while retrieving the Form.'
+            })
+        })
+      
+
+}
 
 // //Find a single Form by Id
-// exports.findById = (req, res) => {
+  exports.findById = (req, res) => {
 
-//     const id = req.params.id
+      const id = req.params.id
 
-//     Form.findByPk(id)
-//         .then(data => {
-//             res.send(data)
-//         })
-//         .catch(err => {
-//             res.status(500).send({
-//                 message:
-//                     err.message || `Error retrieving Form with id ${id}.`
-//             })
-//         })
+      Form.findByPk(id)
+          .then(data => {
+              res.send(data)
+          })
+          .catch(err => {
+              res.status(500).send({
+                  message:
+                      err.message || `Error retrieving Form with id ${id}.`
+              })
+          })
 
-// }
+  }
 
-// //Update Form by Id in request
+// //Update Form by Id in req
 // exports.update = (req, res) => {
 
 //     const id = req.params.id
@@ -176,7 +210,7 @@ exports.Create = (request, result) => {
 
 // }
 
-// //Delete Form by Id in request
+// //Delete Form by Id in req
 // exports.delete = (req, res) => {
 
 //     const id = req.params.id

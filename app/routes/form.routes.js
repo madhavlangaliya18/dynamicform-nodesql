@@ -4,8 +4,8 @@ const formCtrl = require('../controllers/form.controller');
 const rules = require('../validations/forms.validation');
 
 router.post("/forms/create", rules.Create(), formCtrl.Create);
-// router.post("/forms/update", rules.Update() ,formCtrl.UpdateForm);
-// router.get("/forms/all", formCtrl.List);
+router.post("/forms/update", rules.Update() ,formCtrl.UpdateForm);
+router.get("/forms/all", formCtrl.findAll);
 // router.get('/forms/by/', formCtrl.DetailsByID);
 // router.post('/forms/savedetails', rules.SaveFormDetails(), formCtrl.SaveFormDetails);
 // router.get("/forms/GetAllFormEntries", formCtrl.GetAllFormEntries);
