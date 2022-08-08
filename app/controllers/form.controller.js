@@ -1,69 +1,8 @@
 const db = require('../models')
 const Forms = db.forms;
-const Fields = db.fields;
-const Formsdataentries = db.formsdataentries;
-const Formsentries = db.formsentries;
 const Op = db.Sequelize.Op;
 const { validationResult } = require("express-validator");
 const labelmsg = require('../labels/response.labels');
-const { fields } = require('../models');
-
-// //Create and save new form
-// exports.Create = async (req, res) => {
-// console.log("called hereeeeeeee");
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//         const error = errors.array()[0];
-//         return res.status(422).json({
-//             error: error.msg
-//         });
-//     }
-
-//     let data = req.body;
-//     let fieldsarr = data.fields;
-//     // console.log(fieldsarr);
-//     // data.fields.filter((x) => {
-//     //     // let mapping = x.validation?.map(a => [a.validation_type, a.validation_value]);
-//     //     x.validation = mapping ? Object.fromEntries(mapping) : {};
-// 	// 	// x.validation = x.validation?.map(a => Object.fromEntries([[a.validation_type, a.validation_value]]));
-//     // })
-//     // delete data._id;
-
-//     Forms.findOne({ where: {form_key: data.form_key} }).then((info) => {
-//         if (!info) {
-//             Fields.bulkCreate(fieldsarr,(err,fieldres)=>{
-//                 if(err){
-//                     res.status(500).json({
-//                         success : false,
-//                         message : "Unable to create new field!"
-//                     })
-//                 }
-//                 else{
-//                     data.fields_id = fieldres;
-//                     Forms.create(data).then((response) => {
-//                         res.json({
-//                             success: true,
-//                             message: labelmsg.addedmsg
-//                         })
-//                     }).catch((err) => {
-//                         //console.log(err);
-//                         res.status(500).json({
-//                             success: false,
-//                             message: labelmsg.errormsg
-//                         })
-//                     })
-//                 }
-//             })
-//         }
-//         else {
-//             res.json({
-//                 success: false,
-//                 message: labelmsg.keyalreadyExists
-//             })
-//         }
-
-//     })
-// }
 
 
 exports.Create = async(req, res) => {

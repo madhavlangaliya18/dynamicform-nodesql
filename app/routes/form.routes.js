@@ -8,9 +8,6 @@ router.post("/forms/update", rules.Update() ,formCtrl.UpdateForm);
 router.get("/forms/all", formCtrl.findAll);
 router.get('/forms/by/', formCtrl.findById);
 router.post("/forms/DeleteEntries", formCtrl.DeleteEntries);
-// router.post('/forms/savedetails', rules.SaveFormDetails(), formCtrl.SaveFormDetails);
-// router.get("/forms/GetAllFormEntries", formCtrl.GetAllFormEntries);
-// router.get("/forms/GetEntriesById", formCtrl.GetEntriesByEntryID);
-// router.post("/forms/UpdateEntries", rules.UpdateFormDetails(), formCtrl.UpdateEntries);
+
 
 module.exports = router;

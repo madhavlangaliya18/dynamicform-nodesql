@@ -22,7 +22,7 @@ app.use('/', require('./app/routes'));
 //     console.log('---------Drop and re-sync db.');
 // });
 
-const PORT = process.env.port || 8080
+const PORT = process.env.PORT || 8082
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`)
