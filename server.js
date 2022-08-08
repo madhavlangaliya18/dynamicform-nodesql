@@ -17,10 +17,10 @@ app.use(express.static(__dirname + '/'));
 app.use('/', require('./app/routes'));
 
 
-const db = require('./app/models')
-db.sequelize.sync({ force: true }).then(() => {
-    console.log('---------Drop and re-sync db.');
-});
+// const db = require('./app/models')
+// db.sequelize.sync({ force: true }).then(() => {
+//     console.log('---------Drop and re-sync db.');
+// });
 
 const PORT = process.env.port || 8080
 

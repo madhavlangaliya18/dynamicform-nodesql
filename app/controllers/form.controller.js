@@ -98,7 +98,7 @@ exports.Create = async(req, res) => {
   // Update a Tutorial by the id in the request
 exports.UpdateForm = (req, res) => {
   const form_id = req.query.form_id;
-  console.log("hello excuseme brother",form_id );
+  console.log("-------------",form_id );
 
   Forms.update(req.body, {
     where: { id: form_id }
@@ -142,6 +142,8 @@ exports.findAll = (req, res) => {
               obj["submitButtonName"] = data[i]?.submitButtonName
               obj["status"] = data[i]?.status
               obj["fields"] = JSON.parse(data[i]?.fields)
+              obj["createdAt"] = data[i]?.createdAt
+              obj["updatedAt"] = data[i]?.updatedAt
             }
             catch(err){
               console.log(err)
@@ -149,7 +151,7 @@ exports.findAll = (req, res) => {
             }
             new_arr.push(obj)
           }  
-          res.send(new_arr);
+          res.json({message: "Record's Found",data:new_arr});
         })
         .catch(err => {
             res.status(500).send({
@@ -162,112 +164,49 @@ exports.findAll = (req, res) => {
 }
 
 // //Find a single Form by Id
-  exports.findById = (req, res) => {
+  exports.findById = async (req, res) => {
+    console.log("helooooooosdfsdfsdfsdf");
+      const id = req.query.form_id
+    const findOneForm = await Forms.findOne({ where: { id:  req.query.form_id} })
+    console.log(findOneForm.dataValues);
+    findOneForm.dataValues.fields = JSON.parse(findOneForm.dataValues.fields)
+    res.json(findOneForm.dataValues)
+      // Forms.findOne({ where: { id:  req.query.form_id} })
+      //     .then(data => {
 
-      const id = req.params.id
-
-      Form.findByPk(id)
-          .then(data => {
-              res.send(data)
-          })
-          .catch(err => {
-              res.status(500).send({
-                  message:
-                      err.message || `Error retrieving Form with id ${id}.`
-              })
-          })
+      //         res.send(data)
+      //     })
+      //     .catch(err => {
+      //         res.status(500).send({
+      //             message:
+      //                 err.message || `Error retrieving Form with id ${id}.`
+      //         })
+      //     })
 
   }
 
-// //Update Form by Id in req
-// exports.update = (req, res) => {
-
-//     const id = req.params.id
-//     console.log('id :>> ', id);
-
-//     Form.update(req.body, {
-//         where: { id: id }
-//     })
-//         .then(num => {
-//             if (num == 1) {
-//                 res.send({
-//                     message: 'Form was updated sucessfully.'
-//                 })
-//             }
-//             else {
-//                 res.send({
-//                     message: `Cannot update Form with id ${id}. Please try again.`
-//                 })
-//             }
-//         })
-//         .catch(err => {
-//             res.status(500).send({
-//                 message:
-//                     err.message || `Error updating Form with id ${id}.`
-//             })
-//         })
-
-
-// }
-
 // //Delete Form by Id in req
-// exports.delete = (req, res) => {
+exports.DeleteEntries = (req, res) => {
+    const form_id = req.query.form_id
+  Forms.destroy({ where: { id: form_id } })
+        .then(num => {
+            if (num == 1) {
+                res.json({
+                    message: 'Form was deleted sucessfully!'
+                })
+            }
+            else {
+                res.json({
+                    message: `Cannot delete Form with id ${id}. Please try again.`
+                })
+            }
+        })
+        .catch(err => {
+            res.send(500).send({
+                message:
+                    err.message || `Error deleting Form with id ${id}.`
+            })
+        })
 
-//     const id = req.params.id
+}
 
-//     Form.destroy({ where: { id: id } })
-//         .then(num => {
-//             if (num == 1) {
-//                 res.send({
-//                     message: 'Form was deleted sucessfully!'
-//                 })
-//             }
-//             else {
-//                 res.send({
-//                     message: `Cannot delete Form with id ${id}. Please try again.`
-//                 })
-//             }
-//         })
-//         .catch(err => {
-//             res.send(500).send({
-//                 message:
-//                     err.message || `Error deleting Form with id ${id}.`
-//             })
-//         })
-
-// }
-
-// //Deleta all form from database
-// exports.deleteAll = (req, res) => {
-
-//     Form.destroy({
-//         where: {},
-//         truncate: false
-//     }).then(nums => {
-//         res.send({
-//             message: `${nums} form were deleted sucessfully.`
-//         })
-//     })
-//         .catch(err => {
-//             res.status(500).send({
-//                 message:
-//                     err.message || 'Some error occured while deleting all form.'
-//             })
-//         })
-
-// }
-
-// //Find all publised form
-// exports.findAllPublished = (req, res) => {
-
-//     Form.findAll({ where: { published: true } })
-//         .then(data => {
-//             res.send(data)
-//         })
-//         .catch(err => {
-//             res.status(500).send({
-//                 message:
-//                     err.message || 'Some error occured while retrieving published Form.'
-//             })
-//         })
-// }

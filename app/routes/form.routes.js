@@ -6,11 +6,11 @@ const rules = require('../validations/forms.validation');
 router.post("/forms/create", rules.Create(), formCtrl.Create);
 router.post("/forms/update", rules.Update() ,formCtrl.UpdateForm);
 router.get("/forms/all", formCtrl.findAll);
-// router.get('/forms/by/', formCtrl.DetailsByID);
+router.get('/forms/by/', formCtrl.findById);
+router.post("/forms/DeleteEntries", formCtrl.DeleteEntries);
 // router.post('/forms/savedetails', rules.SaveFormDetails(), formCtrl.SaveFormDetails);
 // router.get("/forms/GetAllFormEntries", formCtrl.GetAllFormEntries);
 // router.get("/forms/GetEntriesById", formCtrl.GetEntriesByEntryID);
 // router.post("/forms/UpdateEntries", rules.UpdateFormDetails(), formCtrl.UpdateEntries);
-// router.get("/forms/DeleteEntries", formCtrl.DeleteEntries);
 
 module.exports = router;
